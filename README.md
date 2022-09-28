@@ -13,7 +13,7 @@ This project is a typescript library for electron that allows you to configure a
 ![Screenshot 3](screenshots/cet-003.jpg)
 <br><br>
 
-# 📦 Intalling
+# 📦 Installing
 You can install this package with `npm`.
 ```sh
 npm install custom-electron-titlebar
@@ -59,10 +59,6 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 ```
 To see the options you can include in the Title Bar constructor, such as color of elements, icons, menu position, and much more, and the methods you can use, go to the [wiki](https://github.com/AlexTorresSk/custom-electron-titlebar/wiki)
-<br><br>
-
-## 💰 Support
-If you want to support my development, you can do so by donating through [Buy me a coffee](https://www.buymeacoffee.com/AlexTorresSk) or [Patreon](https://www.patreon.com/AlexTorresSk)
 <br><br>
 
 ## ✅ License
