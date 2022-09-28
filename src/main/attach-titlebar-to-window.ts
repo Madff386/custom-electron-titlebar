@@ -4,6 +4,18 @@
  *--------------------------------------------------------------------------------------------*/
 
 export = (browserWindow: Electron.BrowserWindow) => {
+    const sizes = browserWindow.getMinimumSize();
+    let height = 270;
+
+    if (sizes && sizes.length >= 1) {
+        sizes.forEach(size => {
+            console.log(size);
+            if (sizes[1]) height = size;
+        });
+    }
+
+    browserWindow.setMinimumSize(400, height);
+
     browserWindow.on("enter-full-screen", () => {
         browserWindow.webContents.send("window-fullscreen", true);
     });

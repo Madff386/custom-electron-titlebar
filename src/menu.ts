@@ -10,7 +10,7 @@
 
 import { MenuItem, Menu } from "electron";
 import { Color, RGBA } from "vs/base/common/color";
-import { addClass, addDisposableListener, EventType, isAncestor, hasClass, append, addClasses, $, removeNode, EventHelper, EventLike } from "vs/base/common/dom";
+import { addDisposableListener, EventType, isAncestor, append, $, EventHelper, EventLike } from "vs/base/browser/dom";
 import { KeyCode, KeyCodeUtils, KeyMod } from "vs/base/common/keyCodes";
 import { isLinux } from "vs/base/common/platform";
 import { StandardKeyboardEvent } from "vs/base/browser/keyboardEvent";
@@ -194,7 +194,7 @@ export class CETMenu extends Disposable {
 				target = target.parentElement;
 			}
 
-			if (hasClass(target, 'cet-action-item')) {
+			if (target.classList.contains('cet-action-item')) {
 				const lastFocusedItem = this.focusedItem;
 				this.setFocusedItem(target);
 
@@ -420,7 +420,7 @@ export class CETMenu extends Disposable {
 		dispose(this.items);
 		this.items = [];
 
-		removeNode(this.getContainer());
+		this.getContainer().remove();
 
 		super.dispose();
 	}
@@ -502,7 +502,7 @@ class Submenu extends CETMenuItem {
 			return;
 		}
 
-		addClass(this.itemElement, 'cet-submenu-item');
+		this.itemElement.classList.add('cet-submenu-item');
 		this.itemElement.setAttribute('aria-haspopup', 'true');
 
 		this.submenuIndicator = append(this.itemElement, $('span.cet-submenu-indicator'));
@@ -575,7 +575,7 @@ class Submenu extends CETMenuItem {
 		if (this.container) {
 			if (!this.parentData.submenu) {
 				this.submenuContainer = append(this.container, $('ul.cet-submenu'));
-				addClasses(this.submenuContainer, 'cet-menubar-menu-container');
+				this.submenuContainer.classList.add('cet-menubar-menu-container');
 
 				this.parentData.submenu = new CETMenu(this.submenuContainer, this.menubarOptions, this.submenuOptions, this.closeSubMenu);
 				this.parentData.submenu.createMenu(this.submenuItems);
@@ -647,7 +647,7 @@ class Submenu extends CETMenuItem {
 
 		if (!this.menuStyle) return;
 
-		const isSelected = this.container && hasClass(this.container, 'focused');
+		const isSelected = this.container && this.container.classList.contains('focused');
 		const fgColor = isSelected && this.menuStyle.selectionForegroundColor ? this.menuStyle.selectionForegroundColor : this.menuStyle.foregroundColor;
 		applyFill(this.submenuIndicator?.firstElementChild, this.menubarOptions?.svgColor, fgColor);
 
@@ -683,7 +683,7 @@ class Separator extends CETMenuItem {
 		if (container) {
 			this.separatorElement = append(container, $('a.cet-action-label'));
 			this.separatorElement.setAttribute('role', 'presentation');
-			addClass(this.separatorElement, 'separator');
+			this.separatorElement.classList.add('separator');
 		}
 	}
 

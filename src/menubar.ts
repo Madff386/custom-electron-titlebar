@@ -9,13 +9,12 @@
  *-------------------------------------------------------------------------------------------------------*/
 
 import { ipcRenderer } from 'electron';
-import { $, addDisposableListener, EventType, removeClass, addClass, append, removeNode } from 'vs/base/common/dom';
+import { $, addDisposableListener, EventType, append } from 'vs/base/browser/dom';
 import { CETMenu, cleanMnemonic, MENU_MNEMONIC_REGEX, MENU_ESCAPED_MNEMONIC_REGEX, IMenuOptions, IMenuStyle } from './menu';
 import { StandardKeyboardEvent } from 'vs/base/browser/keyboardEvent';
 import { KeyCodeUtils, KeyCode } from 'vs/base/common/keyCodes';
 import { IDisposable, dispose } from 'vs/base/common/lifecycle';
 import { Event, Emitter } from 'vs/base/common/event';
-import { domEvent } from 'vs/base/browser/event';
 import { isMacintosh } from 'vs/base/common/platform';
 import { MenubarOptions } from './types/menubar-options';
 import { CustomItem } from './types/custom-item';
@@ -59,7 +58,7 @@ export class Menubar {
 		this._onVisibilityChange = new Emitter<boolean>();
 		this._onFocusStateChange = new Emitter<boolean>();
 
-		ModifierKeyEmitter.getInstance().event(this.onModifierKeyToggled, this);
+		//ModifierKeyEmitter.getInstance().event(this.onModifierKeyToggled, this);
 
 		addDisposableListener(this.container, EventType.KEY_DOWN, (e) => {
 			let event = new StandardKeyboardEvent(e);
@@ -151,7 +150,7 @@ export class Menubar {
 
 			const buttonElement = $('div.cet-menubar-menu-button', { 'tabindex': -1, 'aria-label': cleanMenuLabel, 'aria-haspopup': true });
 			if (!menubarMenu.enabled) {
-				addClass(buttonElement, 'disabled');
+				buttonElement.classList.add('disabled');
 			}
 			const titleElement = $('div.cet-menubar-menu-title', { 'aria-hidden': true });
 
@@ -249,8 +248,8 @@ export class Menubar {
 
 	dispose(): void {
 		this.menuItems.forEach(menuBarMenu => {
-			removeNode(menuBarMenu.titleElement);
-			removeNode(menuBarMenu.buttonElement);
+			menuBarMenu.titleElement.remove();
+			menuBarMenu.buttonElement.remove();
 		});
 	}
 
@@ -572,7 +571,7 @@ export class Menubar {
 
 			if (this.focusedMenu.holder) {
 				if (this.focusedMenu.holder.parentElement) {
-					removeClass(this.focusedMenu.holder.parentElement, 'open');
+					this.focusedMenu.holder.parentElement.classList.remove('open');
 				}
 
 				this.focusedMenu.holder.remove();
@@ -592,7 +591,7 @@ export class Menubar {
 		const btnRect = btnElement.getBoundingClientRect();
 		const menuHolder = $('ul.cet-menubar-menu-container');
 
-		addClass(btnElement, 'open');
+		btnElement.classList.add('open');
 		menuHolder.tabIndex = 0;
 		menuHolder.style.top = `${btnRect.bottom - 5}px`;
 		menuHolder.style.left = `${btnRect.left}px`;
@@ -636,7 +635,7 @@ interface IModifierKeyStatus {
 }
 
 
-class ModifierKeyEmitter extends Emitter<IModifierKeyStatus> {
+/*class ModifierKeyEmitter extends Emitter<IModifierKeyStatus> {
 
 	private _subscriptions: IDisposable[] = [];
 	private _keyStatus: IModifierKeyStatus;
@@ -726,7 +725,7 @@ class ModifierKeyEmitter extends Emitter<IModifierKeyStatus> {
 		super.dispose();
 		this._subscriptions = dispose(this._subscriptions);
 	}
-}
+}*/
 
 export function escape(html: string): string {
 	return html.replace(/[<>&]/g, function (match) {

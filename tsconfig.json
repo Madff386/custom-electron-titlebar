@@ -12,6 +12,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
+    "experimentalDecorators": true,
     "strict": true,
     "paths": {
       "vs": [

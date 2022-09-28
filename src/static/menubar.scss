@@ -6,6 +6,16 @@
     overflow: hidden;
     flex-wrap: wrap;
 
+    &.right {
+        justify-content: flex-end;
+        margin-left: auto;
+        margin-right: 16px;
+
+        ~ .cet-controls-container {
+            margin-left: 0 !important;
+        }
+    }
+
     &.bottom {
         order: 1;
         width: 100%;
@@ -30,6 +40,10 @@
         white-space: nowrap;
         -webkit-app-region: no-drag;
         outline: 0;
+
+        &.more::before {
+            content: '...';
+        }
 
         .cet-menubar-menu-title {
             font-size: 12px;

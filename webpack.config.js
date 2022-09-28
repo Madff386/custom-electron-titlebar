@@ -18,6 +18,11 @@ const commonConfig = {
                 exclude: /node_modules|\.d\.ts$/
             },
             {
+                test: /\.jsx?$/,
+                use: "babel-loader",
+                exclude: /node_modules|\.d\.ts$/
+            },
+            {
                 test: /\.scss$/,
                 use: [
                     {

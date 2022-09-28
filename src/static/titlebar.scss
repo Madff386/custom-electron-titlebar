@@ -29,6 +29,10 @@
         justify-content: left;
         overflow: visible;
 
+        .cet-window-title {
+            cursor: default;
+        }
+
         .resizer {
             -webkit-app-region: no-drag;
             position: absolute;
@@ -80,13 +84,11 @@
     }
 
     .cet-window-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 34px;
-        height: 30px;
-        z-index: 99;
-        overflow: hidden;
+        width: 35px;
+        height: 100%;
+        position: relative;
+        z-index: 3000;
+        flex-shrink: 0;
 
         img {
             height: 16px;
@@ -95,17 +97,13 @@
 
     .cet-window-title {
         flex: 0 1 auto;
-        font-size: 13px;
+        font-size: 12px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        margin-left: auto;
+        margin-right: auto;
         zoom: 1;
-
-        &.cet-center {
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%, 0);
-        }
 
         &.cet-bigsur {
             font-size: 13px;
@@ -119,7 +117,7 @@
         flex-shrink: 0;
         text-align: center;
         position: relative;
-        z-index: 99;
+        z-index: 3000;
         -webkit-app-region: no-drag;
         height: 30px;
         font-family: initial;

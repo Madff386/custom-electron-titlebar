@@ -17,7 +17,7 @@ export interface MenubarOptions {
      * The position of menubar on titlebar.
      * **The default is left**
      */
-    menuPosition?: "left" | "bottom";
+    menuPosition?: "left" | "right" | "bottom";
     /**
      * Enable the mnemonics on menubar and menu items
      * **The default is true**

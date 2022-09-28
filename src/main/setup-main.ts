@@ -14,7 +14,7 @@ export = () => {
         (key: string, value: any) => (key !== 'commandsMap' && key !== 'menu') ? value : undefined)
     ));
 
-    ipcMain.on('window-event', (event, eventName: String) => {
+    ipcMain.on('window-event', (event, eventName: string) => {
         const window = BrowserWindow.fromWebContents(event.sender);
 
         switch (eventName) {
@@ -35,19 +35,19 @@ export = () => {
         }
     });
 
-    ipcMain.on('menu-event', (event, commandId: Number) => {
+    ipcMain.on('menu-event', (event, commandId: number) => {
         const item = getMenuItemByCommandId(commandId, Menu.getApplicationMenu());
         item?.click(undefined, BrowserWindow.fromWebContents(event.sender), event.sender);
     });
 }
 
-function getMenuItemByCommandId(commandId: Number, menu: Electron.Menu | null): Electron.MenuItem | undefined {
+function getMenuItemByCommandId(commandId: number, menu: Electron.Menu | null): Electron.MenuItem | undefined {
     for (const item of menu!.items) {
         if (item.submenu) {
             const submenuItem = getMenuItemByCommandId(commandId, item.submenu);
             if (submenuItem) return submenuItem;
         } else if (item.commandId === commandId) return item;
-    };
+    }
 
     return undefined;
 }

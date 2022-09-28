@@ -10,7 +10,7 @@
 
 import fs from 'fs';
 import { ipcRenderer, MenuItem } from "electron";
-import { EventType, addDisposableListener, addClass, removeClass, removeNode, append, $, hasClass, EventHelper, EventLike } from "vs/base/common/dom";
+import { EventType, addDisposableListener, append, $, EventHelper, EventLike } from "vs/base/browser/dom";
 import { IMenuStyle, MENU_MNEMONIC_REGEX, cleanMnemonic, MENU_ESCAPED_MNEMONIC_REGEX, IMenuOptions } from "./menu";
 import { KeyCode, KeyCodeUtils } from "vs/base/common/keyCodes";
 import { Disposable } from "vs/base/common/lifecycle";
@@ -99,7 +99,7 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 
 		this._register(addDisposableListener(this.container, EventType.MOUSE_DOWN, e => {
 			if (this.item.enabled && e.button === 0 && this.container) {
-				addClass(this.container, 'active');
+				this.container.classList.add('active');
 			}
 		}));
 
@@ -116,7 +116,7 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 		[EventType.MOUSE_UP, EventType.MOUSE_OUT].forEach(event => {
 			this._register(addDisposableListener(this.container!, event, e => {
 				EventHelper.stop(e);
-				removeClass(this.container!, 'active');
+				this.container!.classList.remove('active');
 			}));
 		});
 
@@ -158,7 +158,7 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 	focus(): void {
 		if (this.container) {
 			this.container.focus();
-			addClass(this.container, 'focused');
+			this.container.classList.add('focused');
 		}
 
 		this.applyStyle();
@@ -167,7 +167,7 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 	blur(): void {
 		if (this.container) {
 			this.container.blur();
-			removeClass(this.container, 'focused');
+			this.container.classList.remove('focused');
 		}
 
 		this.applyStyle();
@@ -292,10 +292,10 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 				iconE.setAttribute('src', icon.toString());
 			}
 		} else if (this.iconElement && this.item.type === 'checkbox') {
-			addClass(this.iconElement, 'checkbox');
+			this.iconElement.classList.add('checkbox');
 			this.iconElement.innerHTML = defaultIcons.check;
 		} else if (this.item.type === 'radio') {
-			addClass(this.iconElement!, 'radio');
+			this.iconElement!.classList.add('radio');
 			this.iconElement!.innerHTML = this.item.checked ? defaultIcons.radio.checked : defaultIcons.radio.unchecked;
 		}
 
@@ -323,10 +323,10 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 	updateEnabled(): void {
 		if (this.container) {
 			if (this.item.enabled && this.item.type !== 'separator') {
-				removeClass(this.container, 'disabled');
+				this.container.classList.remove('disabled');
 				this.container.tabIndex = 0;
 			} else {
-				addClass(this.container, 'disabled');
+				this.container.classList.add('disabled');
 			}
 		}
 	}
@@ -340,10 +340,10 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 	updateChecked(): void {
 		if (this.itemElement) {
 			if (this.item.checked) {
-				addClass(this.itemElement, 'checked');
+				this.itemElement.classList.add('checked');
 				this.itemElement.setAttribute('aria-checked', 'true');
 			} else {
-				removeClass(this.itemElement, 'checked');
+				this.itemElement.classList.remove('checked');
 				this.itemElement.setAttribute('aria-checked', 'false');
 			}
 		}
@@ -399,7 +399,7 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 
 	dispose(): void {
 		if (this.itemElement) {
-			removeNode(this.itemElement);
+			this.itemElement.remove();
 			this.itemElement = undefined;
 		}
 
@@ -415,7 +415,7 @@ export class CETMenuItem extends Disposable implements IMenuItem {
 			return;
 		}
 
-		const isSelected = this.container && hasClass(this.container, 'focused');
+		const isSelected = this.container && this.container.classList.contains('focused');
 		const fgColor = isSelected && this.menuStyle.selectionForegroundColor ? this.menuStyle.selectionForegroundColor : this.menuStyle.foregroundColor;
 		const bgColor = isSelected && this.menuStyle.selectionBackgroundColor ? this.menuStyle.selectionBackgroundColor : null;
 

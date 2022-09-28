@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', () => {
     //itemBackgroundColor: Color.fromHex("#ffffff"),
     svgColor: Color.WHITE,
     icon: path.join(__dirname, '/assets/images', '/icon.svg'),
-    //menuPosition: 'bottom',
+    //menuPosition: 'right',
     //menu: null // = do not automatically use Menu.applicationMenu
     menuTransparent: 80,
   })
